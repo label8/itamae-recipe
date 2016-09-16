@@ -1,7 +1,7 @@
 pathes:
-  itamae_root: /var/kitchen
-  cookbooks_root: /var/kitchen/cookbooks
-  roles_root: /var/kitchen/roles
+  itamae_root: /var/deploy
+  cookbooks_root: /var/deploy/cookbooks
+  roles_root: /var/deploy/roles
 
 roles:
   - web
