@@ -16,7 +16,7 @@ nginx_common:
 nginx_front:
   lb_conf: /etc/nginx/conf.d/lb.conf
   listen: 80
-  server_name: 192.168.1.10
+  server_name: 192.168.1.20
 
 nginx_web:
   server_name1: 192.168.1.20:1080
