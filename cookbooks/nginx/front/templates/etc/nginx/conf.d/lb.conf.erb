@@ -1,0 +1,28 @@
+server {
+    listen       <%= @listen %>;
+    server_name <%= @server_name %>;
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    #バックエンドサーバへのクライアントIP引渡し
+    # クライアントの IP アドレス($proxy_add_x_forwarded_for;)
+    proxy_set_header Host            $host;
+    proxy_set_header X-Real-IP       $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Server $host;
+
+    location / {
+        proxy_pass http://backend;
+    }
+}
+
+#ロードバランサ設定
+upstream backend {
+#      ip_hash;
+    server <%= @server1 %> max_fails=<%= @max_fails %> fail_timeout=<%= @fail_timeout %>;
+#      server 192.168.1.21:1080 max_fails=3 fail_timeout=30s;
+#      server 127.0.0.1:8080  down;
+}
