@@ -19,6 +19,6 @@ nginx_front:
   server_name: 192.168.1.20
 
 nginx_web:
-  server_name1: 192.168.1.20:1080
-  server_name2: 192.168.1.21:1080
-  server_name3: 192.168.1.22:1080
+  server_name1: 192.168.1.21:1080
+  server_name2: 192.168.1.22:1080
+  server_name3: 192.168.1.23:1080
