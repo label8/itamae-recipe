@@ -1,7 +1,7 @@
 include_recipe "#{node['pathes']['cookbooks_root']}/nginx/web/default.rb"
 
 execute "service nginx restart" do
-  subscribes :run, "template[#{node['nginx_front']['lb_conf']}]"
+  subscribes :run, "template[#{node['nginx_front']['conf']}]"
   action :nothing
 end
 
@@ -10,7 +10,7 @@ template node['nginx_front']['conf'] do
   variables(
     listen: node['nginx_front']['listen'],
     server_name: node['nginx_front']['server_name'],
-    backend_server1: node['nginx_web']['server_name1'],
+    backend_server1: "#{node['nginx_web']['server_names'][0]}:#{node['nginx_web']['listen']}",
     max_fails: node['nginx_common']['max_fails'],
     fail_timeout: node['nginx_common']['fail_timeout']
   )

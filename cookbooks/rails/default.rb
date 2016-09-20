@@ -32,5 +32,6 @@ execute "Rails install" do
   user "vagrant"
   cwd node['rails']['app_root'] 
   command ". #{node['rbenv']['script']}; bundle exec rails new -f -T ."
+  not_if "ls -l #{node['rails']['app_root']}/app"
 end
 

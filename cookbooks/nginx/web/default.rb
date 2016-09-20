@@ -31,8 +31,8 @@ end
 template node['nginx_web']['conf'] do
   source "#{node['pathes']['cookbooks_root']}/nginx/web/templates#{node['nginx_web']['conf']}.erb"
   variables(
-    listen: node['nginx_front']['listen'],
-    server_name: node['nginx_front']['server_name']
+    listen: node['nginx_web']['listen'],
+    server_name: node['nginx_web']['server_names'][0]
   )
   mode "644"
   owner "root"
