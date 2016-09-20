@@ -41,6 +41,7 @@ nginx_web:
 rails:
   app_root: /var/app
   gemfile: /var/app/Gemfile
+  database: postgresql
   unicorn:
     file: /var/app/config/unicorn.rb
     worker_processes: 2

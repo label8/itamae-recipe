@@ -1,3 +1,8 @@
+#execute "service nginx restart" do
+#  subscribes :run, "template[#{node['rails']['unicorn']['file']}]"
+#  action :nothing
+#end
+
 template node['rails']['unicorn']['file'] do
   source "#{node['pathes']['cookbooks_root']}/rails/templates#{node['rails']['unicorn']['file']}.erb"
   variables(

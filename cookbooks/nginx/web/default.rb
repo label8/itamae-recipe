@@ -1,28 +1,7 @@
-remote_file node['nginx_common']['source_list'] do
-  source "#{node['pathes']['cookbooks_root']}/nginx/common/remote_files#{node['nginx_common']['source_list']}"
-  mode "644"
-  owner "root"
-  group "root"
-end
-
-execute "GPG key importing" do
-  command "wget -O - http://nginx.org/keys/nginx_signing.key | sudo apt-key add -"
-  not_if "apt-key list | grep nginx"
-end
-
-execute "apt-get update" do
-  subscribes :run, "remote_file[#{node['nginx_common']['preference']}]", :immediately
+execute "service nginx restart" do
+  subscribes :run, "template[#{node['nginx_web']['default_conf']}]"
   action :nothing
 end
-
-remote_file node['nginx_common']['preference'] do
-  source "#{node['pathes']['cookbooks_root']}/nginx/common/remote_files#{node['nginx_common']['preference']}"
-  mode "644"
-  owner "root"
-  group "root"
-end
-
-package "nginx"
 
 template node['nginx_web']['default_conf'] do
   source "#{node['pathes']['cookbooks_root']}/nginx/web/templates#{node['nginx_web']['default_conf']}.erb"
@@ -33,18 +12,4 @@ template node['nginx_web']['default_conf'] do
   mode "644"
   owner "root"
   group "root"
-end
-
-template node['nginx_web']['unicorn_conf'] do
-  source "#{node['pathes']['cookbooks_root']}/nginx/web/templates#{node['nginx_web']['unicorn_conf']}.erb"
-  variables(
-    listen: node['nginx_web']['listen']
-  )
-  mode "644"
-  owner "root"
-  group "root"
-end
-
-service "nginx" do
-  action [:enable, :start]
 end
