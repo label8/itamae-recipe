@@ -31,7 +31,8 @@ nginx_front:
   server_name: 192.168.1.20
 
 nginx_web:
-  conf: /etc/nginx/conf.d/default.conf
+  default_conf: /etc/nginx/conf.d/default.conf
+  unicorn_conf: /etc/nginx/conf.d/unicorn.conf
   listen: 1080
   server_names:
     - 192.168.1.21
@@ -40,3 +41,9 @@ nginx_web:
 rails:
   app_root: /var/app
   gemfile: /var/app/Gemfile
+  unicorn:
+    file: /var/app/config/unicorn.rb
+    worker_processes: 2
+    timeout: 60
+    preload_app: true
+

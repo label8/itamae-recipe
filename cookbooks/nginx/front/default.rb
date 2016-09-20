@@ -1,5 +1,3 @@
-include_recipe "#{node['pathes']['cookbooks_root']}/nginx/web/default.rb"
-
 execute "service nginx restart" do
   subscribes :run, "template[#{node['nginx_front']['conf']}]"
   action :nothing

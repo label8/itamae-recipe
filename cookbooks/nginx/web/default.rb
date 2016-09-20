@@ -24,12 +24,8 @@ end
 
 package "nginx"
 
-service "nginx" do
-  action [:enable, :start]
-end
-
-template node['nginx_web']['conf'] do
-  source "#{node['pathes']['cookbooks_root']}/nginx/web/templates#{node['nginx_web']['conf']}.erb"
+template node['nginx_web']['default_conf'] do
+  source "#{node['pathes']['cookbooks_root']}/nginx/web/templates#{node['nginx_web']['default_conf']}.erb"
   variables(
     listen: node['nginx_web']['listen'],
     server_name: node['nginx_web']['server_names'][0]
@@ -37,4 +33,18 @@ template node['nginx_web']['conf'] do
   mode "644"
   owner "root"
   group "root"
+end
+
+template node['nginx_web']['unicorn_conf'] do
+  source "#{node['pathes']['cookbooks_root']}/nginx/web/templates#{node['nginx_web']['unicorn_conf']}.erb"
+  variables(
+    listen: node['nginx_web']['listen']
+  )
+  mode "644"
+  owner "root"
+  group "root"
+end
+
+service "nginx" do
+  action [:enable, :start]
 end
