@@ -27,3 +27,14 @@ package "nginx"
 service "nginx" do
   action [:enable, :start]
 end
+
+template node['nginx_web']['conf'] do
+  source "#{node['pathes']['cookbooks_root']}/nginx/web/templates#{node['nginx_web']['conf']}.erb"
+  variables(
+    listen: node['nginx_front']['listen'],
+    server_name: node['nginx_front']['server_name']
+  )
+  mode "644"
+  owner "root"
+  group "root"
+end
