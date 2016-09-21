@@ -11,7 +11,7 @@ directory node['rails']['app_root'] do
   mode "775"
   owner "vagrant"
   group "vagrant"
-  not_if "ls -l #{node['rails']['app_root']}"
+  not_if "test -d #{node['rails']['app_root']}"
 end
 
 remote_file node['rails']['gemfile'] do
@@ -21,17 +21,39 @@ remote_file node['rails']['gemfile'] do
   group "vagrant"
 end
 
-execute "Gem install" do
+execute "Bundle install" do
   user "vagrant"
   cwd node['rails']['app_root']
   command ". #{node['rbenv']['script']}; bundle install --path vendor/bundle"
-  not_if "ls -l #{node['rails']['app_root']}/vendor/bundle"
+#  not_if "test -d #{node['rails']['app_root']}/vendor/bundle"
 end
 
 execute "Rails install" do
   user "vagrant"
   cwd node['rails']['app_root'] 
-  command ". #{node['rbenv']['script']}; bundle exec rails new -f -T -d #{node['rails']['database']} ."
-  not_if "ls -l #{node['rails']['app_root']}/app"
+  command ". #{node['rbenv']['script']}; bundle exec rails new -f -T -d #{node['rails']['database']['adapter']} ."
+  not_if "test -d #{node['rails']['app_root']}/app"
 end
 
+execute "Set secret key and db password" do
+  user "vagrant"
+  cwd node['rails']['app_root']
+  command "export SECRET_KEY_BASE=`bundle exec rake secret`; export APP_DATABASE_PASSWORD=#{node['rails']['database']['password']}"
+end
+
+template node['rails']['database']['file'] do
+  source "#{node['pathes']['cookbooks_root']}/rails/templates#{node['rails']['database']['file']}.erb"
+  variables(
+    adapter: node['rails']['database']['adapter'],
+    encoding: node['rails']['database']['encoding'],
+    pool: node['rails']['database']['pool'],
+    name: node['rails']['database']['name'],
+    user: node['rails']['database']['user'],
+    host: node['rails']['database']['host'],
+    port: node['rails']['database']['port'],
+    password: node['rails']['database']['password']
+  )
+  mode "644"
+  owner "vagrant"
+  group "vagrant"
+end

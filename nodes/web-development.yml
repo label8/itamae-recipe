@@ -41,10 +41,18 @@ nginx_web:
 rails:
   app_root: /var/app
   gemfile: /var/app/Gemfile
-  database: postgresql
   unicorn:
     file: /var/app/config/unicorn.rb
     worker_processes: 2
     timeout: 60
     preload_app: true
-
+  database:
+    file: /var/app/config/database.yml
+    adapter: postgresql
+    encoding: unicode
+    pool: 5
+    name: app_production
+    user: hachiya
+    host: 192.168.1.40
+    port: 5432
+    password: G8BrneGL

@@ -16,3 +16,9 @@ template node['nginx_front']['conf'] do
   owner "root"
   group "root"
 end
+
+execute "Remove nginx default.conf" do
+  user "root"
+  command "rm -f /etc/nginx/conf.d/default.conf"
+  only_if "test -f /etc/nginx/conf.d/default.conf"
+end

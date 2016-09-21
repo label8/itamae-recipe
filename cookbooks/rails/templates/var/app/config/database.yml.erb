@@ -1,0 +1,20 @@
+default: &default
+  adapter: <%= @adapter %>
+  encoding: <%= @encoding %>
+  pool: <%= @pool %>
+
+development:
+  <<: *default
+  database: app_development
+
+test:
+  <<: *default
+  database: app_test
+
+production:
+  <<: *default
+  database: <%= @name %>
+  username: <%= @user %>
+  host: <%= @host %>
+  port: <%= @port %>
+  password: <%= @password %>
