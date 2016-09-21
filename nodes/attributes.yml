@@ -54,8 +54,14 @@ rbenv:
 rails:
   app_root: /var/app
   gemfile: /var/app/Gemfile
+  vendor_bin_path: /var/app/vendor/bundle/ruby/2.3.0/bin
+  env: production
   unicorn:
+    user: vagrant
     file: /var/app/config/unicorn.rb
+    script: /etc/init.d/unicorn
+    pid_file: /var/app/tmp/pids/unicorn.pid
+    config_file: /var/app/config/unicorn.rb
     worker_processes: 2
     timeout: 60
     preload_app: true
