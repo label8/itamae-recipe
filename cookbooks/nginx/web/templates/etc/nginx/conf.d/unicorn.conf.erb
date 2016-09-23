@@ -3,7 +3,7 @@ upstream backend-unicorn {
 }
 
 server {
-  listen <%= @listen %>;
+  listen <%= node['nginx_web']['listen'] %>;
   server_name localhost;
   root /var/app/public;
   access_log /var/log/nginx/access.log;

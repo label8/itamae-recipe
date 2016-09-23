@@ -60,8 +60,11 @@ rails:
     user: vagrant
     file: /var/app/config/unicorn.rb
     script: /etc/init.d/unicorn
+    listen: /tmp/unicorn.sock
     pid_file: /var/app/tmp/pids/unicorn.pid
     config_file: /var/app/config/unicorn.rb
+    stdout_log: /var/app/log/unicorn.stdout.log
+    stderr_log: /var/app/log/unicorn.stderr.log
     worker_processes: 2
     timeout: 60
     preload_app: true

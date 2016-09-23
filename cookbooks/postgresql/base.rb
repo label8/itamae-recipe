@@ -15,11 +15,14 @@ end
 
 package "postgresql"
 
+service "postgresql"
+
 remote_file node['pgsql']['hba_conf'] do
   source "#{node['pathes']['cookbooks_root']}/postgresql/remote_files#{node['pgsql']['hba_conf']}"
   mode "644"
   owner "postgres"
   group "postgres"
+  notifies :reload, "service[postgresql]"
 end
 
 remote_file node['pgsql']['postgresql_conf'] do
@@ -27,7 +30,12 @@ remote_file node['pgsql']['postgresql_conf'] do
   mode "644"
   owner "postgres"
   group "postgres"
+  notifies :reload, "service[postgresql]"
 end
+
+#service "postgresql" do
+#  action :restart
+#end
 
 execute 'create user' do
   user_exists = <<-EOL
@@ -39,9 +47,5 @@ execute 'create user' do
   EOL
 
   not_if user_exists
-end
-
-service "postgresql" do
-  action :restart
 end
 

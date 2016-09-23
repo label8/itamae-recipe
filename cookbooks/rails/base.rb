@@ -43,16 +43,6 @@ end
 
 template node['rails']['database']['file'] do
   source "#{node['pathes']['cookbooks_root']}/rails/templates#{node['rails']['database']['file']}.erb"
-  variables(
-    adapter: node['rails']['database']['adapter'],
-    encoding: node['rails']['database']['encoding'],
-    pool: node['rails']['database']['pool'],
-    name: node['rails']['database']['name'],
-    user: node['rails']['database']['user'],
-    host: node['rails']['database']['host'],
-    port: node['rails']['database']['port'],
-    password: node['rails']['database']['password']
-  )
   mode "644"
   owner "vagrant"
   group "vagrant"

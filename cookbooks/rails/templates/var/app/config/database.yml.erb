@@ -1,7 +1,7 @@
 default: &default
-  adapter: <%= @adapter %>
-  encoding: <%= @encoding %>
-  pool: <%= @pool %>
+  adapter: <%= node['rails']['database']['adapter'] %>
+  encoding: <%= node['rails']['database']['encoding'] %>
+  pool: <%= node['rails']['database']['pool'] %>
 
 development:
   <<: *default
@@ -13,8 +13,8 @@ test:
 
 production:
   <<: *default
-  database: <%= @name %>
-  username: <%= @user %>
-  host: <%= @host %>
-  port: <%= @port %>
-  password: <%= @password %>
+  database: <%= node['rails']['database']['name'] %>
+  username: <%= node['rails']['database']['user'] %>
+  host: <%= node['rails']['database']['host'] %>
+  port: <%= node['rails']['database']['port'] %>
+  password: <%= ENV['RAILS_DATABASE_PASSWORD'] %>
