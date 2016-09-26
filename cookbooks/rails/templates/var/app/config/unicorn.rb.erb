@@ -1,14 +1,14 @@
 worker_processes <%= node['rails']['unicorn']['worker_processes'] %>
-working_directory <%= node['rails']['app_root'] %>
-listen <%= node['rails']['unicorn']['listen'] %>
-pid <%= node['rails']['unicorn']['pid_file'] %>
+working_directory "<%= node['rails']['app_root'] %>"
+listen "<%= node['rails']['unicorn']['listen'] %>"
+pid "<%= node['rails']['unicorn']['pid_file'] %>"
 
 timeout <%= node['rails']['unicorn']['timeout'] %>
 
 preload_app <%= node['rails']['unicorn']['preload_app'] %>
 
-stdout_path <%= node['rails']['unicorn']['stdout_log'] %>
-stderr_path <%= node['rails']['unicorn']['stderr_log'] %>
+stdout_path "<%= node['rails']['unicorn']['stdout_log'] %>"
+stderr_path "<%= node['rails']['unicorn']['stderr_log'] %>"
 
 GC.respond_to?(:copy_on_write_friendly=) and GC.copy_on_write_friendly = true
 

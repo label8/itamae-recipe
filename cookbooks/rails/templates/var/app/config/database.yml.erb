@@ -17,4 +17,4 @@ production:
   username: <%= node['rails']['database']['user'] %>
   host: <%= node['rails']['database']['host'] %>
   port: <%= node['rails']['database']['port'] %>
-  password: <%= ENV['RAILS_DATABASE_PASSWORD'] %>
+  password: <%= node['rails']['rails_database_password'] %>

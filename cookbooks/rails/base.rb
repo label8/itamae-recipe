@@ -35,10 +35,22 @@ execute "Rails install" do
   not_if "test -d #{node['rails']['app_root']}/app"
 end
 
-execute "Set secret key and db password" do
-  user "vagrant"
-  cwd node['rails']['app_root']
-  command "export SECRET_KEY_BASE=`bundle exec rake secret`; export APP_DATABASE_PASSWORD=#{node['rails']['database']['password']}"
+# execute "Set secret key and db password" do
+#   user "vagrant"
+#   cwd node['rails']['app_root']
+#   command "export SECRET_KEY_BASE=`bundle exec rake secret`; export APP_DATABASE_PASSWORD=#{node['rails']['database']['password']}"
+# end
+
+%w(
+  RAILS_DATABASE_PASSWORD=G8BrneBL
+  SECRET_KEY_BASE=8afd9a8924107f0818d0ee79f6814ed3358fecfd59102b093880662763a1b764d35443bdeb3289856944aec1fc14f4816c6318cf640dc1614f8f513bbd76706f
+).each do |env|
+  execute "Add Environment" do
+    user "vagrant"
+#    command "echo export #{env} >> ~/.profile; . /home/vagrant/.profile"
+    command "export #{env};"
+#    not_if "printenv | grep #{env}"
+  end
 end
 
 template node['rails']['database']['file'] do

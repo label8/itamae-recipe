@@ -1,16 +1,25 @@
-# itamae ssh で指定したIPアドレスの第四オクテットを見て
-# どのロールを読み込むか決める
-matches = ARGV[2].match(/.+\.(\d+)$/)
-fourth_octet = matches[1]
+# itamaeコマンドのオプションを配列として取得
+options = ARGV
+# デフォルト値セット
+host_name = nil
+# コマンドオプション配列からオプションのホスト接続(-h)に対するセット値(ホスト名)を取得
+# -hの次の配列を取得
+options.each_with_index do |opt, i|
+  if opt.to_s == "-h"
+    host_name = options[i+1]
+  end
+end
 
-case fourth_octet.to_i
-when 20
-  include_recipe "roles/front/base.rb"
-when 21
-  include_recipe "roles/web/base.rb"
-  include_recipe "roles/app/base.rb"
-when 40
-  include_recipe "roles/db/base.rb"
-else
-  p "192.168.1.[20:front, 21-39:web, 40:db]"
+# ノードアトリビュートに設定してあるそれぞれのホスト名を取得
+front_servers = node["nginx_front"]["server_names"]
+web_servers   = node["nginx_web"]["server_names"]
+db_servers    = node["pgsql"]["server_names"]
+
+# コマンドのホスト名が各アトリビュートのホスト名に含まれていたら該当のロールを読み込む
+if front_servers.include?(host_name)
+  include_recipe "roles/front.rb"
+elsif web_servers.include?(host_name)
+  include_recipe "roles/web.rb"
+elsif db_servers.include?(host_name)
+  include_recipe "roles/db.rb"
 end
