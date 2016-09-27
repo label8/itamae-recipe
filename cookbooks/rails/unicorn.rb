@@ -32,10 +32,5 @@ end
 
 service "unicorn" do
   user "root"
-  action [:enable, :start]
+  action [:enable, :restart]
 end
-
-#execute "Start unicorn" do
-#  user "root"
-#  command "service unicorn start"
-#end
