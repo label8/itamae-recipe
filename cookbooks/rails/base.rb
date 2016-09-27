@@ -31,7 +31,7 @@ end
 execute "Rails install" do
   user "vagrant"
   cwd node['rails']['app_root'] 
-  command ". #{node['rbenv']['script']}; bundle exec rails new -f -T -d #{node['rails']['database']['adapter']} ."
+  command ". #{node['rbenv']['script']}; bundle exec rails new -s -T -d #{node['rails']['database']['adapter']} ."
   not_if "test -d #{node['rails']['app_root']}/app"
 end
 
@@ -46,7 +46,7 @@ end
   SECRET_KEY_BASE=8afd9a8924107f0818d0ee79f6814ed3358fecfd59102b093880662763a1b764d35443bdeb3289856944aec1fc14f4816c6318cf640dc1614f8f513bbd76706f
 ).each do |env|
   execute "Add Environment" do
-    user "vagrant"
+    user "root"
 #    command "echo export #{env} >> ~/.profile; . /home/vagrant/.profile"
     command "export #{env};"
 #    not_if "printenv | grep #{env}"

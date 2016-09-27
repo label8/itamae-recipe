@@ -17,6 +17,13 @@ template node['rails']['unicorn']['script'] do
   group "root"
 end
 
+directory "#{node['rails']['app_root']}/tmp/pids" do
+  mode "775"
+  owner "vagrant"
+  group "vagrant"
+  not_if "test -d #{node['rails']['app_root']}/tmp/pids"
+end
+
 execute "Load unicorn service" do
   user "root"
   command "systemctl daemon-reload"
@@ -24,5 +31,11 @@ execute "Load unicorn service" do
 end
 
 service "unicorn" do
+  user "root"
   action [:enable, :start]
 end
+
+#execute "Start unicorn" do
+#  user "root"
+#  command "service unicorn start"
+#end

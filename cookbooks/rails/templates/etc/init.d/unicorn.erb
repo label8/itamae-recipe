@@ -22,7 +22,8 @@ ARGS="-c $CONFIG_FILE -D -E $RAILS_ENV"
 
 case $1 in
   start)
-    start-stop-daemon --start --chuid $USER --chdir $APP_ROOT --exec $CMD -- $ARGS || true
+    start-stop-daemon --start --chuid $USER --chdir $APP_ROOT --exec $CMD -- \
+    $ARGS || true
     ;;
 
   stop)
