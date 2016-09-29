@@ -11,11 +11,11 @@
 ### END INIT INFO
 
 USER=<%= node['rails']['unicorn']['user'] %>
-APP_ROOT=<%= node['rails']['app_root'] %>
+APP_ROOT=<%= node['rails']['app_root'] %>/<%= node['app_name'] %>
 RAILS_ENV=<%= node['rails']['env'] %>
-PID_FILE=<%= node['rails']['unicorn']['pid_file'] %>
-CONFIG_FILE=<%= node['rails']['unicorn']['config_file'] %>
-CMD="<%= node['rbenv']['dirs']['root'] %>/shims/bundle exec <%= node['rails']['vendor_bin_path'] %>/unicorn"
+PID_FILE=$APP_ROOT<%= node['rails']['unicorn']['pid_file'] %>
+CONFIG_FILE=$APP_ROOT<%= node['rails']['unicorn']['config_file'] %>
+CMD="<%= node['rbenv']['dirs']['root'] %>/shims/bundle exec <%= node['rails']['app_root'] %>/<%= node['app_name'] %><%= node['rails']['vendor_bin_path'] %>/unicorn"
 ARGS="-c $CONFIG_FILE -D -E $RAILS_ENV"
 
 . /etc/profile.d/rbenv.sh

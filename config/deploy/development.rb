@@ -22,7 +22,6 @@
 # role :db,  %w{deploy@example.com}
 
 
-
 # Configuration
 # =============
 # You can set any configuration variable like in config/deploy.rb
@@ -62,7 +61,7 @@
 
 set :branch, 'master'
 
-role :web, %w{vagrant@192.168.1.21}
+role :web, %w{vagrant@192.168.1.15}
 
 set :ssh_options, {
   keys: %w(/home/vagrant/.ssh/id_rsa),

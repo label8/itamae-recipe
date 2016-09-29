@@ -10,10 +10,9 @@ options.each_with_index do |opt, i|
   end
 end
 
-# ノードアトリビュートに設定してあるそれぞれのホスト名を取得
-front_servers = node["nginx_front"]["server_names"]
-web_servers   = node["nginx_web"]["server_names"]
-db_servers    = node["pgsql"]["server_names"]
+front_servers = node['nginx_front']['server_names']
+web_servers   = node['nginx_web']['server_names']
+db_servers    = node['pgsql']['server_names']
 
 # コマンドのホスト名が各アトリビュートのホスト名に含まれていたら該当のロールを読み込む
 if front_servers.include?(host_name)

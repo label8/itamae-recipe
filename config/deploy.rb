@@ -1,14 +1,14 @@
 # config valid only for current version of Capistrano
 lock '3.6.1'
 
-set :application, 'my_app'
-set :repo_url, 'https://github.com/label8/menzukan.git'
+set :application, 'rooster'
+set :repo_url, 'https://github.com/label8/rooster.git'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/var/app/menzukan'
+set :deploy_to, '/var/app/rooster'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -42,7 +42,7 @@ set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all
 
 set :linked_dirs, %w{bin log tmp/pids tmp/cache vendor/bundle}
-set :linked_files, %w{config/database.yml config/secrets.yml}
+#set :linked_files, %w{config/database.yml config/secrets.yml}
 set :unicorn_pid, "#{shared_path}/tmp/pids/unicorn.pid"
 set :bundle_jobs, 4
 

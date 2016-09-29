@@ -1,9 +1,4 @@
-#execute "service nginx restart" do
-#  subscribes :run, "template[#{node['rails']['unicorn']['file']}]"
-#  action :nothing
-#end
-
-template node['rails']['unicorn']['file'] do
+template "#{node['rails']['app_root']}/#{node['app_name']}#{node['rails']['unicorn']['file']}" do
   source "#{node['pathes']['cookbooks_root']}/rails/templates#{node['rails']['unicorn']['file']}.erb"
   mode "664"
   owner "vagrant"
@@ -17,11 +12,11 @@ template node['rails']['unicorn']['script'] do
   group "root"
 end
 
-directory "#{node['rails']['app_root']}/tmp/pids" do
+directory "#{node['rails']['app_root']}/#{node['app_name']}/tmp/pids" do
   mode "775"
   owner "vagrant"
   group "vagrant"
-  not_if "test -d #{node['rails']['app_root']}/tmp/pids"
+  not_if "test -d #{node['rails']['app_root']}/#{node['app_name']}/tmp/pids"
 end
 
 execute "Load unicorn service" do

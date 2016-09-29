@@ -1,13 +1,9 @@
+app_name: rooster
+
 pathes:
   itamae_root: /var/deploy
   cookbooks_root: /var/deploy/cookbooks
   roles_root: /var/deploy/roles
-
-#roles:
-#  - front
-#  - web
-#  - app
-#  - db
 
 # Nginx settings
 nginx_common:
@@ -26,20 +22,22 @@ nginx_front:
 nginx_web:
   default_conf: /etc/nginx/conf.d/default.conf
   unicorn_conf: /etc/nginx/conf.d/unicorn.conf
-  listen: 1080
+  listen: 80
   server_names:
-    - 192.168.1.21
-    - 192.168.1.22
+    - 192.168.1.15
+    - 192.168.1.16
 
 # Postgresql settings
 pgsql:
-  user: hachiya
+  user: rooster
+  db_name: rooster
   password: G8BrneBL
   source_list: /etc/apt/sources.list.d/pgdg.list
   hba_conf: /etc/postgresql/9.5/main/pg_hba.conf
   postgresql_conf: /etc/postgresql/9.5/main/postgresql.conf
   server_names:
     - 192.168.1.40
+  port: 5432
 
 # rbenv settings
 rbenv:
@@ -56,29 +54,24 @@ rbenv:
 # Rails settins
 rails:
   app_root: /var/app
-  gemfile: /var/app/Gemfile
-  vendor_bin_path: /var/app/vendor/bundle/ruby/2.3.0/bin
-  env: production
+  gemfile: /Gemfile
+  vendor_bin_path: /vendor/bundle/ruby/2.3.0/bin
+  env: development
   rails_database_password: <%= ENV['RAILS_DATABASE_PASSWORD'] %>
   unicorn:
     user: vagrant
-    file: /var/app/config/unicorn.rb
+    file: /config/unicorn.rb
     script: /etc/init.d/unicorn
     listen: /tmp/unicorn.sock
-    pid_file: /var/app/tmp/pids/unicorn.pid
-    config_file: /var/app/config/unicorn.rb
-    stdout_log: /var/app/log/unicorn.stdout.log
-    stderr_log: /var/app/log/unicorn.stderr.log
+    pid_file: /tmp/pids/unicorn.pid
+    config_file: /config/unicorn.rb
+    stdout_log: /log/unicorn.stdout.log
+    stderr_log: /log/unicorn.stderr.log
     worker_processes: 2
     timeout: 60
     preload_app: true
   database:
-    file: /var/app/config/database.yml
+    file: /config/database.yml
     adapter: postgresql
     encoding: unicode
     pool: 5
-    name: app_production
-    user: hachiya
-    host: 192.168.1.40
-    port: 5432
-    password: G8BrneGL
