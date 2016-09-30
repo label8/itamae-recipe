@@ -6,10 +6,12 @@
 
 # Ignore bundler config.
 /.bundle
+vendor/bundle
 
-# Ignore all logfiles and tempfiles.
+db/* .sqlite3
 /log/*
-!/log/.keep
-/tmp
+/tmp/*
 
-/vendor/bundle
+# Important configures
+config/database.yml
+config/secrets.yml
