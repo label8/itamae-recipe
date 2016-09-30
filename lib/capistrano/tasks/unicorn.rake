@@ -32,6 +32,7 @@ namespace :unicorn do
   desc "Stop unicorn server gracefully"
   task :stop => :environment do
     on roles(:app) do
+      info "stopping unicorn..."
       stop_unicorn
     end
   end
@@ -40,6 +41,7 @@ namespace :unicorn do
   task :restart => :environment do
     on roles(:app) do
       if test("[ -f #{fetch(:unicorn_pid)} ]")
+        info "unicorn restarting..."
         reload_unicorn
       else
         start_unicorn
@@ -50,6 +52,7 @@ namespace :unicorn do
   desc "Stop unicorn server immediately"
   task :force_stop => :environment do
     on roles(:app) do
+      info "force stopping unicorn..."
       force_stop_unicorn
     end
   end

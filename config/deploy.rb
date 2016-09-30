@@ -30,6 +30,7 @@ set :rbenv_roles, :all
 set :unicorn_pid, "#{shared_path}/tmp/pids/unicorn.pid"
 set :bundle_jobs, 4
 
+### 以下デプロイ作業 ###
 after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
   # アプリの再起動を行うタスク
@@ -66,16 +67,9 @@ namespace :deploy do
   before :started, 'deploy:upload'
   after :finishing, 'deploy:cleanup'
 
-  # Unicorn 再起動タスク
+  # # Unicorn 再起動タスク
   desc 'Restart application'
   task :restart do
-    invoke 'unicorn:restart' # lib/capustrano/tasks/unicorn.cap 内処理を実行
+    invoke 'unicorn:restart' # lib/capustrano/tasks/unicorn.rake 内処理を実行
   end
 end
-
-# after 'deploy:publishing', 'deploy:restart'
-# namespace :deploy do
-#   task :restart do
-#     invoke 'unicorn:restart'
-#   end
-# end
