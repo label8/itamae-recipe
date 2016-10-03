@@ -21,7 +21,7 @@ nginx_front:
 
 nginx_web:
   default_conf: /etc/nginx/conf.d/default.conf
-  unicorn_conf: /etc/nginx/conf.d/unicorn.conf
+  unicorn_conf: /etc/nginx/conf.d/unicorn_dev.conf
   listen: 80
   server_names:
     - 192.168.1.15
@@ -55,6 +55,7 @@ rbenv:
 rails:
   app_root: /var/app
   gemfile: /Gemfile
+  env_script: /etc/profile.d/rails.sh
   vendor_bin_path: /vendor/bundle/ruby/2.3.0/bin
   env: development
   rails_database_password: <%= ENV['RAILS_DATABASE_PASSWORD'] %>

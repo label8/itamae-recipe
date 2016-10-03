@@ -14,43 +14,14 @@ directory "#{node['rails']['app_root']}/#{node['app_name']}" do
   not_if "test -d #{node['rails']['app_root']}/#{node['app_name']}"
 end
 
-remote_file "#{node['rails']['app_root']}/#{node['app_name']}#{node['rails']['gemfile']}" do
-  source "#{node['pathes']['cookbooks_root']}/rails/remote_files#{node['rails']['gemfile']}"
-  mode "664"
-  owner "vagrant"
-  group "vagrant"
-end
+###
+# Rails特有の環境変数は別途ymlで設定
+###
 
-# Install bundler
-execute "Bundle install" do
-  user "vagrant"
-  cwd "#{node['rails']['app_root']}/#{node['app_name']}"
-  command ". #{node['rbenv']['script']}; bundle install --path vendor/bundle"
-  not_if "test -d #{node['rails']['app_root']}/#{node['app_name']}/vendor/bundle"
-end
-
-# Production環境ではCapistranoでアプリの配置を行うためRilsインストールは行わない
-if node['rails']['env'] == "development"
-  execute "Rails install" do
-    user "vagrant"
-    cwd "#{node['rails']['app_root']}/#{node['app_name']}"
-    command ". #{node['rbenv']['script']}; bundle exec rails new -s -T -d #{node['rails']['database']['adapter']} ."
-    not_if "test -d #{node['rails']['app_root']}/#{node['app_name']}/app"
-  end
-
-  template "#{node['rails']['app_root']}/#{node['app_name']}#{node['rails']['database']['file']}" do
-    source "#{node['pathes']['cookbooks_root']}/rails/templates#{node['rails']['database']['file']}.erb"
-    mode "644"
-    owner "vagrant"
-    group "vagrant"
-  end
-end
-# %w(
-#   RAILS_DATABASE_PASSWORD=G8BrneBL
-#   SECRET_KEY_BASE=8afd9a8924107f0818d0ee79f6814ed3358fecfd59102b093880662763a1b764d35443bdeb3289856944aec1fc14f4816c6318cf640dc1614f8f513bbd76706f
-# ).each do |env|
-#   execute "Add Environment" do
-#     user "root"
-#     command "export #{env};"
-#   end
+# Using rails environments
+# remote_file "#{node['rails']['env_script']}" do
+#   source "#{node['pathes']['cookbooks_root']}/rails/remote_files#{node['rails']['env_script']}"
+#   mode "644"
+#   owner "root"
+#   group "root"
 # end

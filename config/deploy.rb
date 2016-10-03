@@ -15,7 +15,7 @@ set :log_level, :debug
 set :pty, true
 #sharedに入るものを指定
 set :linked_files, %w{config/database.yml config/secrets.yml}
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets bundle public/system public/assets}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/assets}
 #capistrano用bundleするのに必要
 set :default_env, { path: "/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH" }
 #5回分のreleasesを保持する
@@ -28,7 +28,9 @@ set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all
 #unicorn
 set :unicorn_pid, "#{shared_path}/tmp/pids/unicorn.pid"
+
 set :bundle_jobs, 4
+set :bundle_path, "#{shared_path}/vendor/bundle"
 
 ### 以下デプロイ作業 ###
 after 'deploy:publishing', 'deploy:restart'
