@@ -1,4 +1,4 @@
-# node.js install
+# Install node.js
 execute "Add node.js to package" do
   user "vagrant"
   command "curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -"
@@ -6,7 +6,7 @@ end
 
 package "nodejs"
 
-# setup rails
+# Make app root dir and deploy Gemfile
 directory "#{node['rails']['app_root']}/#{node['app_name']}" do
   mode "775"
   owner "vagrant"
@@ -21,6 +21,7 @@ remote_file "#{node['rails']['app_root']}/#{node['app_name']}#{node['rails']['ge
   group "vagrant"
 end
 
+# Install bundler
 execute "Bundle install" do
   user "vagrant"
   cwd "#{node['rails']['app_root']}/#{node['app_name']}"
@@ -28,6 +29,7 @@ execute "Bundle install" do
   not_if "test -d #{node['rails']['app_root']}/#{node['app_name']}/vendor/bundle"
 end
 
+# Production環境ではCapistranoでアプリの配置を行うためRilsインストールは行わない
 if node['rails']['env'] == "development"
   execute "Rails install" do
     user "vagrant"

@@ -1,5 +1,6 @@
 service "nginx"
 
+# Deploy nginx configration file
 template node['nginx_front']['conf'] do
   source "#{node['pathes']['cookbooks_root']}/nginx/front/templates#{node['nginx_front']['conf']}.erb"
   mode "644"
