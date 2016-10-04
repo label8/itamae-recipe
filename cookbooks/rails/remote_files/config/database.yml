@@ -1,0 +1,23 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: rooster
+
+development:
+  <<: *default
+  database: rooster_development
+  host: 192.168.1.40
+  port: 5432
+  password: G8BrneBL
+
+test:
+  <<: *default
+  database: rooster_test
+
+production:
+  <<: *default
+  database: rooster_production
+  host: 192.168.1.50
+  port: 5432
+  password: G8BrneBL

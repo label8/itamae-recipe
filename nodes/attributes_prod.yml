@@ -59,6 +59,7 @@ rails:
   vendor_bin_path: /vendor/bundle/ruby/2.3.0/bin
   env: production
   rails_database_password: <%= ENV['RAILS_DATABASE_PASSWORD'] %>
+  secret_file: /config/secrets.yml
   unicorn:
     user: vagrant
     file: /config/unicorn.rb
@@ -68,6 +69,7 @@ rails:
     config_file: /config/unicorn.rb
     stdout_log: /log/unicorn.stdout.log
     stderr_log: /log/unicorn.stderr.log
+    current_path: /current
     worker_processes: 2
     timeout: 60
     preload_app: true

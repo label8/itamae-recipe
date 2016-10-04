@@ -14,6 +14,36 @@ directory "#{node['rails']['app_root']}/#{node['app_name']}" do
   not_if "test -d #{node['rails']['app_root']}/#{node['app_name']}"
 end
 
+# git clonning project
+git "#{node['rails']['app_root']}/#{node['app_name']}" do
+  repository "https://github.com/label8/rooster.git"
+  user "vagrant"
+  not_if "test -d #{node['rails']['app_root']}/#{node['app_name']}/.git"
+end
+
+remote_file "#{node['rails']['app_root']}/#{node['app_name']}#{node['rails']['database']['file']}" do
+  source "#{node['pathes']['cookbooks_root']}/rails/remote_files#{node['rails']['database']['file']}"
+  mode "755"
+  owner "vagrant"
+  group "vagrant"
+  not_if "test -f #{node['rails']['app_root']}/#{node['app_name']}#{node['rails']['database']['file']}"
+end
+
+remote_file "#{node['rails']['app_root']}/#{node['app_name']}#{node['rails']['secret_file']}" do
+  source "#{node['pathes']['cookbooks_root']}/rails/remote_files#{node['rails']['secret_file']}"
+  mode "755"
+  owner "vagrant"
+  group "vagrant"
+  not_if "test -f #{node['pathes']['cookbooks_root']}/rails/remote_files#{node['rails']['secret_file']}"
+end
+
+# Install bundler
+execute "install bundler" do
+  user "vagrant"
+  cwd "#{node['rails']['app_root']}/#{node['app_name']}"
+  command ". #{node['rbenv']['script']}; bundle install --path vendor/bundle"
+end
+
 ###
 # Rails特有の環境変数は別途ymlで設定
 ###

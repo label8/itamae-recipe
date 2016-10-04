@@ -1,19 +1,20 @@
 worker_processes <%= node['rails']['unicorn']['worker_processes'] %>
-working_directory "<%= node['rails']['app_root'] %>/<%= node['app_name'] %>/current"
+working_directory "<%= node['rails']['app_root'] %>/<%= node['app_name'] %><%= node['rails']['unicorn']['current_path'] %>"
+
 listen "<%= node['rails']['unicorn']['listen'] %>"
-pid "<%= node['rails']['app_root'] %>/<%= node['app_name'] %>/current<%= node['rails']['unicorn']['pid_file'] %>"
+pid "<%= node['rails']['app_root'] %>/<%= node['app_name'] %><%= node['rails']['unicorn']['current_path'] %><%= node['rails']['unicorn']['pid_file'] %>"
 
 timeout <%= node['rails']['unicorn']['timeout'] %>
 
 preload_app <%= node['rails']['unicorn']['preload_app'] %>
 
-stdout_path "<%= node['rails']['app_root'] %>/<%= node['app_name'] %>/current<%= node['rails']['unicorn']['stdout_log'] %>"
-stderr_path "<%= node['rails']['app_root'] %>/<%= node['app_name'] %>/current<%= node['rails']['unicorn']['stderr_log'] %>"
+stdout_path "<%= node['rails']['app_root'] %>/<%= node['app_name'] %><%= node['rails']['unicorn']['current_path'] %><%= node['rails']['unicorn']['stdout_log'] %>"
+stderr_path "<%= node['rails']['app_root'] %>/<%= node['app_name'] %><%= node['rails']['unicorn']['current_path'] %><%= node['rails']['unicorn']['stderr_log'] %>"
 
 GC.respond_to?(:copy_on_write_friendly=) and GC.copy_on_write_friendly = true
 
 before_fork do |server, worker|
-  ENV['BUNDLE_GEMFILE'] = "<%= node['rails']['app_root'] %>/<%= node['app_name'] %>/current<%= node['rails']['gemfile'] %>"
+  ENV['BUNDLE_GEMFILE'] = "<%= node['rails']['app_root'] %>/<%= node['app_name'] %><%= node['rails']['unicorn']['current_path'] %><%= node['rails']['gemfile'] %>"
   defined?(ActiveRecord::Base) and ActiveRecord::Base.connection.disconnect!
   old_pid = "#{server.config[:pid]}.oldbin"
   if old_pid != server.pid

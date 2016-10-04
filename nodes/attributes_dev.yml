@@ -25,7 +25,7 @@ nginx_web:
   listen: 80
   server_names:
     - 192.168.1.15
-#    - 192.168.1.16
+    - 192.168.1.16
 
 # Postgresql settings
 pgsql:
@@ -59,6 +59,7 @@ rails:
   vendor_bin_path: /vendor/bundle/ruby/2.3.0/bin
   env: development
   rails_database_password: <%= ENV['RAILS_DATABASE_PASSWORD'] %>
+  secret_file: /config/secrets.yml
   unicorn:
     user: vagrant
     file: /config/unicorn.rb
@@ -68,6 +69,7 @@ rails:
     config_file: /config/unicorn.rb
     stdout_log: /log/unicorn.stdout.log
     stderr_log: /log/unicorn.stderr.log
+    current_path:
     worker_processes: 2
     timeout: 60
     preload_app: true
