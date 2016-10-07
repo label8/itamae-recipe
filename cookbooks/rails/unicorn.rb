@@ -17,14 +17,12 @@ template "#{app_root_dir}#{unicorn_file}" do
   group "vagrant"
   variables(
     :worker_process        => node[:rails][:unicorn][:worker_processes],
-#    :working_directory     => app_root_dir,
     :unicorn_listen_socket => node[:rails][:unicorn][:listen],
     :unicorn_pid_file      => "#{app_root_dir}#{node[:rails][:unicorn][:pid_file]}",
     :unicorn_timeout       => node[:rails][:unicorn][:timeout],
     :is_preload_app        => node[:rails][:unicorn][:preload_app],
     :unicorn_stdout_path   => "#{app_root_dir}#{node[:rails][:unicorn][:stdout_log]}",
     :unicorn_stderr_path   => "#{app_root_dir}#{node[:rails][:unicorn][:stderr_log]}",
-    :gemfile_path          => "#{app_root_dir}#{node[:rails][:gemfile]}"
   )
 end
 
