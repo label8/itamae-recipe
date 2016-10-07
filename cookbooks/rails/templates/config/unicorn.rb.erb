@@ -2,14 +2,14 @@ worker_processes <%= @worker_process %>
 working_directory File.expand_path('../../', __FILE__)
 
 listen "<%= @unicorn_listen_socket %>"
-pid "<%= @unicorn_pid_file %>"
+pid File.join(File.expand_path("../../", __FILE__), "<%= @unicorn_pid_file %>")
 
 timeout <%= @unicorn_timeout %>
 
 preload_app <%= @is_preload_app %>
 
-stdout_path "<%= @unicorn_stdout_path %>"
-stderr_path "<%= @unicorn_stderr_path %>"
+stdout_path File.join(File.expand_path("../../", __FILE__), "<%= @unicorn_stdout_path %>")
+stderr_path File.join(File.expand_path("../../", __FILE__), "<%= @unicorn_stderr_path %>")
 
 GC.respond_to?(:copy_on_write_friendly=) and GC.copy_on_write_friendly = true
 

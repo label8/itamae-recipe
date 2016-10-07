@@ -18,11 +18,11 @@ template "#{app_root_dir}#{unicorn_file}" do
   variables(
     :worker_process        => node[:rails][:unicorn][:worker_processes],
     :unicorn_listen_socket => node[:rails][:unicorn][:listen],
-    :unicorn_pid_file      => "#{app_root_dir}#{node[:rails][:unicorn][:pid_file]}",
+    :unicorn_pid_file      => node[:rails][:unicorn][:pid_file],
     :unicorn_timeout       => node[:rails][:unicorn][:timeout],
     :is_preload_app        => node[:rails][:unicorn][:preload_app],
-    :unicorn_stdout_path   => "#{app_root_dir}#{node[:rails][:unicorn][:stdout_log]}",
-    :unicorn_stderr_path   => "#{app_root_dir}#{node[:rails][:unicorn][:stderr_log]}",
+    :unicorn_stdout_path   => node[:rails][:unicorn][:stdout_log],
+    :unicorn_stderr_path   => node[:rails][:unicorn][:stderr_log]
   )
 end
 
