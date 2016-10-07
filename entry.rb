@@ -10,12 +10,12 @@ options.each_with_index do |opt, i|
   end
 end
 
-front_servers = node['nginx_front']['server_names']
+front_server = node['nginx_front']['server_name']
 web_servers   = node['nginx_web']['server_names']
 db_servers    = node['pgsql']['server_names']
 
 # コマンドのホスト名が各アトリビュートのホスト名に含まれていたら該当のロールを読み込む
-if front_servers.include?(host_name)
+if front_server.include?(host_name)
   include_recipe "roles/front.rb"
 elsif web_servers.include?(host_name)
   include_recipe "roles/web.rb"

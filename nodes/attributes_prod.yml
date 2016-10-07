@@ -16,8 +16,7 @@ nginx_common:
 nginx_front:
   conf: /etc/nginx/conf.d/lb.conf
   listen: 80
-  server_names:
-    - 192.168.1.20
+  server_name: 192.168.1.20
 
 nginx_web:
   default_conf: /etc/nginx/conf.d/default.conf
@@ -44,7 +43,7 @@ rbenv:
   dirs:
     root: /usr/local/rbenv
     plugins: /usr/local/rbenv/plugins
-    ruby-build: /usr/local/rbenv/plugins/ruby-build
+    ruby_build: /usr/local/rbenv/plugins/ruby-build
   script: /etc/profile.d/rbenv.sh
   version: 2.3.1
   global: 2.3.1
@@ -54,6 +53,7 @@ rbenv:
 # Rails settins
 rails:
   app_root: /var/app
+  current_path: /current
   gemfile: /Gemfile
   env_script: /etc/profile.d/rails.sh
   vendor_bin_path: /vendor/bundle/ruby/2.3.0/bin
@@ -69,7 +69,6 @@ rails:
     config_file: /config/unicorn.rb
     stdout_log: /log/unicorn.stdout.log
     stderr_log: /log/unicorn.stderr.log
-    current_path: /current
     worker_processes: 2
     timeout: 60
     preload_app: true

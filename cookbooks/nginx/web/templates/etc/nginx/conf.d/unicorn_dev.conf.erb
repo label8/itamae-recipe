@@ -1,11 +1,11 @@
 upstream backend-unicorn {
-  server unix:<%= node['rails']['unicorn']['listen'] %> fail_timeout=0;
+  server unix:<%= @unicorn_listen_socket %> fail_timeout=0;
 }
 
 server {
-  listen <%= node['nginx_web']['listen'] %>;
-  server_name <%= node['nginx_web']['server_names'][0] %>;
-  root <%= node['rails']['app_root'] %>/<%= node['app_name'] %>/public;
+  listen <%= @web_listen_port %>;
+  server_name <%= @web_server_name %>;
+  root <%= @app_root_dir %>/public;
   access_log /var/log/nginx/access.log;
   error_log /var/log/nginx/error.log;
   client_max_body_size 100m;

@@ -1,20 +1,20 @@
-worker_processes <%= node['rails']['unicorn']['worker_processes'] %>
-working_directory "<%= node['rails']['app_root'] %>/<%= node['app_name'] %><%= node['rails']['unicorn']['current_path'] %>"
+worker_processes <%= @worker_process %>
+working_directory File.expand_path('../../', __FILE__)
 
-listen "<%= node['rails']['unicorn']['listen'] %>"
-pid "<%= node['rails']['app_root'] %>/<%= node['app_name'] %><%= node['rails']['unicorn']['current_path'] %><%= node['rails']['unicorn']['pid_file'] %>"
+listen "<%= @unicorn_listen_socket %>"
+pid "<%= @unicorn_pid_file %>"
 
-timeout <%= node['rails']['unicorn']['timeout'] %>
+timeout <%= @unicorn_timeout %>
 
-preload_app <%= node['rails']['unicorn']['preload_app'] %>
+preload_app <%= @is_preload_app %>
 
-stdout_path "<%= node['rails']['app_root'] %>/<%= node['app_name'] %><%= node['rails']['unicorn']['current_path'] %><%= node['rails']['unicorn']['stdout_log'] %>"
-stderr_path "<%= node['rails']['app_root'] %>/<%= node['app_name'] %><%= node['rails']['unicorn']['current_path'] %><%= node['rails']['unicorn']['stderr_log'] %>"
+stdout_path "<%= @unicorn_stdout_path %>"
+stderr_path "<%= @unicorn_stderr_path %>"
 
 GC.respond_to?(:copy_on_write_friendly=) and GC.copy_on_write_friendly = true
 
 before_fork do |server, worker|
-  ENV['BUNDLE_GEMFILE'] = "<%= node['rails']['app_root'] %>/<%= node['app_name'] %><%= node['rails']['unicorn']['current_path'] %><%= node['rails']['gemfile'] %>"
+  ENV['BUNDLE_GEMFILE'] = "<%= @gemfile_path %>"
   defined?(ActiveRecord::Base) and ActiveRecord::Base.connection.disconnect!
   old_pid = "#{server.config[:pid]}.oldbin"
   if old_pid != server.pid

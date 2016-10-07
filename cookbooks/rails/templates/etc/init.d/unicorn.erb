@@ -10,12 +10,12 @@
 # Description:       starts unicorn (a rails app) using start-stop-daemon
 ### END INIT INFO
 
-USER=<%= node['rails']['unicorn']['user'] %>
-APP_ROOT=<%= node['rails']['app_root'] %>/<%= node['app_name'] %>
-RAILS_ENV=<%= node['rails']['env'] %>
-PID_FILE=$APP_ROOT<%= node['rails']['unicorn']['pid_file'] %>
-CONFIG_FILE=$APP_ROOT<%= node['rails']['unicorn']['config_file'] %>
-CMD="<%= node['rbenv']['dirs']['root'] %>/shims/bundle exec <%= node['rails']['app_root'] %>/<%= node['app_name'] %><%= node['rails']['vendor_bin_path'] %>/unicorn"
+USER=<%= @unicorn_run_user %>
+APP_ROOT=<%= @app_root %>
+RAILS_ENV=<%= @rails_environment %>
+PID_FILE=<%= @unicorn_pid_file %>
+CONFIG_FILE=<%= @unicorn_config_file %>
+CMD="<%= @unicorn_command %>"
 ARGS="-c $CONFIG_FILE -D -E $RAILS_ENV"
 
 . /etc/profile.d/rbenv.sh
